@@ -1,6 +1,5 @@
 import Router from 'express';
-import path from 'path';
-import RoomController from './controllers/RoomController'
+import RoomController from './controllers/RoomController';
 
 // Initialize instance of express Router
 const router = Router();
@@ -14,10 +13,10 @@ router.get('/', (req, res) => {
 router.get('/create-room', RoomController.createRoom);
 
 // Name retrieval form and room joining
-router.all(`/room/:roomId/join`, RoomController.joinRoom);
+router.all('/room/:roomId/join', RoomController.joinRoom);
 
 // Room page
-router.get(`/room/:roomId`, RoomController.displayRoom);
+router.get('/room/:roomId', RoomController.displayRoom);
 
 // Export router
 module.exports = router;

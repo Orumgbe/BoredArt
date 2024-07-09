@@ -28,8 +28,10 @@ class RedisClient {
       return roomData;
     } catch (err) {
       console.error(err.message);
+      throw err;
     }
   }
+
   // Add a new member to the room
   // Takes 3 args: roomID (str), username, userData (json string), duration (in seconds)
   async setRoomMember(roomId, username, userData, duration) {

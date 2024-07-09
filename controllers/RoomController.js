@@ -1,5 +1,5 @@
 import path from 'path';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import redisClient from '../utils/redis';
 
 // Handle room requests
@@ -29,14 +29,14 @@ class RoomController {
 
   // Handle room joining
   static async joinRoom(req, res) {
-    const roomId = req.params.roomId;
+    const { roomId } = req.params;
     if (req.method === 'GET') {
       // Send form to get username
       console.log('Views directory:', path.join(__dirname, 'public'));
       res.render('join', { roomId });
     } else if (req.method === 'POST') {
       // Process new user joining
-      const username = req.body.username;
+      const { username } = req.body;
       // Get room from redis
       try {
         const roomMembers = await redisClient.getRoomMembers(roomId);
@@ -66,13 +66,13 @@ class RoomController {
 
   // Room page
   static async displayRoom(req, res) {
-    const roomId = req.params.roomId;
+    const { roomId } = req.params;
     const cookieName = req.cookies[`room-${roomId}-name`];
     if (!roomId) {
-      res.redirect('/')
+      res.redirect('/');
     } else if (!cookieName) {
       res.redirect(`/room/${roomId}/join`);
-    }else {
+    } else {
       try {
         const roomObj = await redisClient.getRoomMembers(roomId);
         if (!roomObj) {
@@ -85,7 +85,7 @@ class RoomController {
         res.status(404).send('Room not found');
       }
     }
-  };
+  }
 }
 
 module.exports = RoomController;
