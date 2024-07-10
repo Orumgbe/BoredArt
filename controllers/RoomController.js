@@ -39,7 +39,7 @@ class RoomController {
       const { username } = req.body;
       // Get room from redis
       try {
-        const roomMembers = await redisClient.getRoomMembers(roomId);
+        const roomMembers = await redisClient.getAllRoomMembers(roomId);
         if (roomMembers.length === 5) {
           console.log('room is full');
           res.redirect('/');
@@ -74,7 +74,7 @@ class RoomController {
       res.redirect(`/room/${roomId}/join`);
     } else {
       try {
-        const roomObj = await redisClient.getRoomMembers(roomId);
+        const roomObj = await redisClient.getAllRoomMembers(roomId);
         if (!roomObj) {
           res.status(404).send('Room not found');
         } else {
