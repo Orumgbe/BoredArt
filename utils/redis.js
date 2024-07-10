@@ -9,6 +9,7 @@ class RedisClient {
       port: 6379,
     }).on('error', redis.print);
     this.hgetallAsync = promisify(this.client.hgetall).bind(this.client);
+    this.hgetAsync = promisify(this.client.hget).bind(this.client);
     this.hsetAsync = promisify(this.client.hset).bind(this.client);
     this.expireAsync = promisify(this.client.expire).bind(this.client);
     this.hdelAsync = promisify(this.client.hdel).bind(this.client);
@@ -21,11 +22,24 @@ class RedisClient {
   }
 
   // Get room members - return value is { username (str): userData (obj), ... }
-  async getRoomMembers(roomId) {
+  async getAllRoomMembers(roomId) {
     try {
       const roomData = await this.hgetallAsync(roomId);
       console.log(`Members of ${roomId} - ${JSON.stringify(roomData)}`);
       return roomData;
+    } catch (err) {
+      console.error(err.message);
+      throw err;
+    }
+  }
+
+  // Get room member based on username - return: { userData (obj) }
+  async getRoomMember(roomId, username) {
+    try {
+      const userStr = await this.hgetAsync(roomId, username);
+      console.log(`Member ${username} - ${userStr}`);
+      const userData = JSON.parse(userStr);
+      return userData;
     } catch (err) {
       console.error(err.message);
       throw err;
