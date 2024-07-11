@@ -48,7 +48,7 @@ class RoomController {
             id: roomMembers.length,
             score: 0,
             isDrawing: false,
-            isActive: false,
+            isActive: true,
             socketID: null,
           };
           const userStr = JSON.stringify(userData);
