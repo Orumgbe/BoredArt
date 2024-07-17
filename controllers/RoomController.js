@@ -12,7 +12,6 @@ class RoomController {
     const userData = {
       id: 0,
       score: 0,
-      isDrawing: false,
       isActive: false,
       socketID: null,
     };
@@ -20,7 +19,7 @@ class RoomController {
     console.log(`Details - ${roomId}, { ${username}: ${userStr} }`);
     try {
       // Increase room TTL to test member connection and disconnection
-      await redisClient.setRoomMember(roomId, username, userStr, 60);
+      await redisClient.setRoomMember(roomId, username, userStr, 300);
       res.redirect(`/room/${roomId}`);
     } catch (error) {
       res.status(500).send(`Error creating room: ${error}`);
@@ -44,17 +43,17 @@ class RoomController {
           console.log('room is full');
           res.redirect('/');
         } else {
+          // Do later -> check if that username is already in the room (avoid overwriting)
           const userData = {
             id: roomMembers.length,
             score: 0,
-            isDrawing: false,
-            isActive: true,
             socketID: null,
           };
           const userStr = JSON.stringify(userData);
           await redisClient.setRoomMember(roomId, username, userStr);
+          if ('placeholder' in roomMembers) await redisClient.delRoomMember(roomId, 'placeholder');
           // Cookie for tracking room request
-          res.cookie(`room-${roomId}-name`, username, { maxAge: 60000, httpOnly: true });
+          res.cookie(`room-${roomId}-name`, username, { maxAge: 300000, httpOnly: true });
           res.redirect(`/room/${roomId}`);
         }
       } catch (error) {
