@@ -7,9 +7,26 @@
   <link rel="stylesheet" href="/styles/room.css">
 </head>
 <body>
-  <div id="container1" class="container"></div>
-  <div id="container2" class="container"></div>
+  <div id="board_container" class="container">
+    <div class="controls">
+      <input type="color" id="colorPicker">
+      <input type="range" id="lineWidth" min="1" max="10" value="5">
+      <button id="clearButton">Clear</button>
+      <button id="eraserButton">Eraser</button>
+    </div>
+    <canvas id="whiteboard"></canvas>
+  </div>
+  <div id="chats_container" class="container">
+    <ul id="chats"></ul>
+    <form id="chat" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+  </div>
   <div id="members_container" class="container"></div>
 </body>
-<script src="/scripts/users.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>const socket = io();</script>
+<script src="/scripts/users.js" defer></script>
+<script src="/scripts/chat.js" defer></script>
+<script src="/scripts/game.js" defer></script>
 </html>
