@@ -19,8 +19,14 @@ function socketHandler(io) {
       socket.to(roomId).emit('roomMessage', { username, message });
     });
 
+    // Handle drawing event
     socket.on('drawing', (data) => {
-      socket.to(data.roomId).emit('drawing', data);
+      socket.to(data.roomId).emit('drawing', { username: socket.username, ...data });
+      console.log(`${socket.username} sent drawing event in room ${data.roomId}`);
+    });
+
+    socket.on('clearCanvas', (data) => {
+      socket.to(data.roomId).emit('clearCanvas', (data));
     });
 
     socket.on('disconnect', () => {
