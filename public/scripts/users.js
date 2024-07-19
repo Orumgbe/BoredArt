@@ -59,42 +59,43 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('An error occurred:', error);
     }
   });
-
-  function addUserToPage(username, userData) {
-    console.log('Adding user to page:', username, userData); // Add log
-    const membersContainer = document.getElementById('members_container');
-    const memberDiv = document.createElement("div");
-    memberDiv.classList.add("member");
-    memberDiv.id = username;
-    memberDiv.textContent = `${username} (Score: ${userData.score})`;
-    membersContainer.appendChild(memberDiv);
-  }
-
-  async function getUser(roomId, username) {
-    try {
-      const res = await fetch(`http://0.0.0.0:3000/api/${roomId}/${username}`);
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const userData = await res.json();
-      return userData;
-    } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
-      return {};
-    }
-  }
-
-  async function getAllUsers(roomId) {
-    try {
-      const res = await fetch(`http://0.0.0.0:3000/api/${roomId}`);
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const users = await res.json();
-      return users;
-    } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
-      return {};
-    }
-  }
 });
+
+
+function addUserToPage(username, userData) {
+  console.log('Adding user to page:', username, userData); // Add log
+  const membersContainer = document.getElementById('members_container');
+  const memberDiv = document.createElement("div");
+  memberDiv.classList.add("member");
+  memberDiv.id = username;
+  memberDiv.textContent = `${username} (Score: ${userData.score})`;
+  membersContainer.appendChild(memberDiv);
+}
+
+export async function getUser(roomId, username) {
+  try {
+    const res = await fetch(`http://0.0.0.0:3000/api/${roomId}/${username}`);
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const userData = await res.json();
+    return userData;
+  } catch (error) {
+    console.error('There has been a problem with your fetch operation:', error);
+    return {};
+  }
+}
+
+export async function getAllUsers(roomId) {
+  try {
+    const res = await fetch(`http://0.0.0.0:3000/api/${roomId}`);
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const users = await res.json();
+    return users;
+  } catch (error) {
+    console.error('There has been a problem with your fetch operation:', error);
+    return {};
+  }
+}
