@@ -13,7 +13,7 @@ class RoomController {
       id: 0,
       score: 0,
       isActive: false,
-      socketID: null,
+      socketId: null,
     };
     const userStr = JSON.stringify(userData);
     console.log(`Details - ${roomId}, { ${username}: ${userStr} }`);
@@ -47,7 +47,7 @@ class RoomController {
           const userData = {
             id: roomMembers.length,
             score: 0,
-            socketID: null,
+            socketId: null,
           };
           const userStr = JSON.stringify(userData);
           await redisClient.setRoomMember(roomId, username, userStr);
