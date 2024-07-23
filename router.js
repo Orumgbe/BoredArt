@@ -27,6 +27,9 @@ router.get('/api/:roomId', UserController.getAllUsers);
 // Get user based on username
 router.get('/api/:roomId/:username', UserController.getUser);
 
+// Update socket ID
+router.put('/api/:roomId/:username/:socketId', UserController.updateUserSocket);
+
 // Delete user based on username
 router.get('/api/:roomId/:username/delete', UserController.deleteUser);
 
