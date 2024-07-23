@@ -31,6 +31,24 @@ class UserController {
     }
   }
 
+  // Update user socket ID
+  static async updateUserSocket(req, res) {
+    const { roomId } = req.params;
+    const { username } = req.params;
+    const { socketId } = req.params;
+
+    try {
+      const userData = await redisClient.getRoomMember(roomId, username);
+      userData['socketId'] = socketId;
+      const userStr = JSON.stringify(userData);
+      await redisClient.setRoomMember(roomId, username, userStr);
+      res.status(200).json({ success: `socket Id updated for ${username}` });
+    } catch (error) {
+      console.log(error);
+      res.status(404).json({ error: 'User not found' });
+    }
+  }
+
   // Delete user
   static async deleteUser(req, res) {
     const { roomId } = req.params;
