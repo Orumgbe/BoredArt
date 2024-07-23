@@ -35,4 +35,12 @@ document.addEventListener("DOMContentLoaded", function() {
     chatList.appendChild(item);
     chatList.scrollTop = chatList.scrollHeight;
   });
+
+  socket.on('player-choosing', (username) => {
+    const item = document.createElement('li');
+    item.textContent = `${username} is choosing a word`;
+    item.id = 'game-info-text';
+    chatList.appendChild(item);
+    chatList.scrollTop = chatList.scrollHeight;
+  });
 });
