@@ -12,10 +12,6 @@ body, html {
   box-sizing: border-box;
 }
 
-.remove {
-  display: none;
-}
-
 /* Inactive members grayed out */
 #members_container .member.inactive {
   background-color: lightgray; /* Grayed out background color when inactive */
@@ -142,13 +138,6 @@ canvas {
   border-radius: 5px;
 }
 
-#chats li#game-info-text {
-  padding: 2px;
-  background-color: transparent;
-  color: green;
-  z-index: 5;
-}
-
 #chats li:nth-child(even) {
   background-color: #e0e0e0;
 }
@@ -191,44 +180,4 @@ canvas {
   height: calc(100% - 40px); /* Adjust for controls height */
   border: 1px solid black;
   box-sizing: border-box;
-}
-
-#displayDiv {
-  position: absolute;
-  top: 55px;
-  width: 70px;
-  left: 5%;
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 10;
-}
-
-#promptDiv {
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  width: 40%;
-  height: 40%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 5;
-}
-
-#startGame {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  margin: 10px;
-  background-color: #007bff;
-  border: 1px solid black;
-  border-radius: 4px;
-  padding: 6px 10px;
-  font-size: 12px;
-}
-
-#startGame:hover {
-  cursor: pointer;
 }

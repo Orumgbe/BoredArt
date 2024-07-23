@@ -16,12 +16,6 @@
       <button id="penButton">Pen</button>
     </div>
     <canvas id="whiteboard"></canvas>
-    <div id="promptDiv">
-      <!-- Game progression container -->
-    </div>
-    <div id="displayDiv">
-      <!-- Display game progress -->
-    </div>
   </div>
   <div id="chats_container" class="container">
     <ul id="chats"></ul>
@@ -30,11 +24,10 @@
     </form>
   </div>
   <div id="members_container" class="container"></div>
-  <button id="startGame">start game</button>
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script>const socket = io();</script>
 <script src="/scripts/users.js" defer></script>
 <script src="/scripts/chat.js" defer></script>
-<script src="/scripts/game.js" defer></script>
+<script src="/scripts/draw.js" defer></script>
 </html>

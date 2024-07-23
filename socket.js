@@ -17,34 +17,8 @@ function socketHandler(io) {
       console.log(`${username} left room ${roomId}`);
     });
 
-    // Handle game logic
-    socket.on('startGame', async (roomId) => {
-      const gameData = {};
-      try {
-        const roomMembers = await redisClient.getAllRoomMembers(roomId);
-        const users = {};
-        for (const username in roomMembers) {
-          users[username] = JSON.parse(roomMembers[username]);
-        }
-
-        gameData['roundsPlayed'] = 0;
-        gameData['rounds'] = 3;
-        gameData['users'] = users;
-        gameData['wordChoice'] = ['boy', 'airplane', 'tree'];
-
-        io.to(roomId).emit('gameStart', gameData);
-      } catch (error) {
-        console.error(error);
-      }
-    });
-    // Game logic ends here
-
     socket.on('chatMessage', ({ roomId, username, message }) => {
       socket.to(roomId).emit('roomMessage', { username, message });
-    });
-
-    socket.on('choosing-word', ({ roomId, username }) => {
-      socket.to(roomId).emit('player-choosing', (username));
     });
 
     // Handle drawing event

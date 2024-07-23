@@ -54,7 +54,7 @@ function addUserToPage(username, userData) {
   const memberDiv = document.createElement("div");
   memberDiv.classList.add("member");
   memberDiv.id = username;
-  memberDiv.textContent = `${username} (Score: ${userData.score})`;
+  memberDiv.textContent = `${username}`;
   membersContainer.appendChild(memberDiv);
 }
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (existingMember) {
         console.log(`${username} reconnected with id: ${socket.id}`);
         existingMember.classList.remove('inactive');
-        existingMember.textContent = `${username} (Score: ${userData.score})`;
+        existingMember.textContent = `${username}`;
       } else {
         const users = await getAllUsers(roomId);
         users[username] = userData;
