@@ -33,8 +33,8 @@ router.put('/api/:roomId/:username/:socketId', UserController.updateUserSocket);
 // Delete user based on username
 router.get('/api/:roomId/:username/delete', UserController.deleteUser);
 
-// Update game state
-// router.post('/api/:roomId/update', GameController.updateState);
+// Clear user cookie
+router.get('/api/:roomId/clear-cookie', RoomController.clearCookie);
 
 // Export router
 module.exports = router;

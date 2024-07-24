@@ -39,7 +39,7 @@ class RoomController {
       // Get room from redis
       try {
         const roomMembers = await redisClient.getAllRoomMembers(roomId);
-        if (roomMembers.length === 5) {
+        if (Object.keys(roomMembers).length === 4) {
           console.log('room is full');
           res.redirect('/');
         } else {
@@ -75,15 +75,23 @@ class RoomController {
       try {
         const roomObj = await redisClient.getAllRoomMembers(roomId);
         if (!roomObj) {
-          res.status(404).send('Room not found');
+          res.status(404).send('Room not found -> 1');
         } else {
           console.log('Data is in redis, Trust');
-          res.status(200).render('room');
+          res.status(200).render('room', { roomId });
         }
       } catch (error) {
-        res.status(404).send('Room not found');
+        res.status(404).send('Room not found -> 2');
       }
     }
+  }
+
+  // Clear user cookie 
+  static clearCookie(req, res) {
+    const { roomId } = req.params;
+    res.clearCookie(`room-${roomId}-name`);
+    console.log('Cookie cleared');
+    res.redirect('/');
   }
 }
 
