@@ -60,6 +60,15 @@ canvas {
     padding: 10px;
   }
 
+  #member-count {
+    position: absolute;
+    top: 70%;
+    width: 30px;
+    height: 20px;
+    max-width: 5%;
+    max-height: 30px;
+  }
+
   #members_container .member {
     margin: 0 10px;
     padding: 10px;
@@ -97,6 +106,15 @@ canvas {
     justify-content: flex-start;
     padding: 10px;
     overflow-y: auto; /* Enable vertical scrolling */
+  }
+
+  #member-count {
+    position: absolute;
+    top: 50%;
+    width: 5%;
+    height: 15px;
+    max-width: 10%;
+    max-height: 30px;
   }
 
   #members_container {
@@ -180,4 +198,29 @@ canvas {
   height: calc(100% - 40px); /* Adjust for controls height */
   border: 1px solid black;
   box-sizing: border-box;
+}
+
+#member-count {
+  display: flex;
+  align-items: center;
+  background: black;
+  color: white;
+  padding: 4px;
+  border-radius: 2px;
+}
+
+
+#leaveButton {
+  background-color: darkred;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  position: absolute;
+  margin: 4px;
+  bottom: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#leaveButton:hover {
+  background-color: red;
 }
