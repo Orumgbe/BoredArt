@@ -10,11 +10,6 @@ function socketHandler(io) {
       console.log(`${username} joined ${roomId} with ${socket.id}`);
     });
 
-    socket.on('removeUser', ({ roomId, username }) => {
-      socket.leave(roomId);
-      console.log(`${username} left room ${roomId}`);
-    });
-
     socket.on('chatMessage', ({ roomId, username, message }) => {
       socket.to(roomId).emit('roomMessage', { username, message });
     });
@@ -30,6 +25,7 @@ function socketHandler(io) {
 
     socket.on('disconnect', () => {
       if (socket.roomId && socket.username) {
+        socket.leave(socket.roomId);
         socket.to(socket.roomId).emit('userLeft', socket.username); // Emit userLeft event
         console.log(`${socket.username} left room ${socket.roomId}`);
       }

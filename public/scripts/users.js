@@ -49,7 +49,6 @@ async function updateSocketId(roomId, username, socketId) {
 }
 
 function addUserToPage(username) {
-  console.log('Adding user to page, username:', username); // Add log
   const membersContainer = document.getElementById('members_container');
   const memberDiv = document.createElement("div");
   memberDiv.classList.add("member");
@@ -96,8 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   socket.on('userJoined', async (user) => {
     try {
-      const userData = await getUser(roomId, user);
-      addUserToPage(user, userData);
+      addUserToPage(user);
       const users = await getAllUsers(roomId);
       // Update member count
       memberCount.textContent = `${Object.keys(users).length}/${maxCapacity}`;
@@ -158,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         disconnectedUser.classList.add('inactive');
         inactiveTimeout = setTimeout(async () => {
           const res = await fetch(`${domainName}/api/${roomId}/${username}/delete`);
-          localStorage.removeItem(username);
+          localStorage.removeItem('username');
           if (!res.ok) {
             throw new Error('Network response was not ok');
           }
