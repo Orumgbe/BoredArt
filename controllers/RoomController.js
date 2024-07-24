@@ -34,7 +34,7 @@ class RoomController {
       // Get room from redis
       try {
         const roomMembers = await redisClient.getAllRoomMembers(roomId);
-        if (Object.keys(roomMembers).length === 4) {
+        if (Object.keys(roomMembers).length === 5) {
           console.log('room is full');
           res.redirect('/');
         } else {
