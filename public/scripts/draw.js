@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
       y1: offsetY,
       color: drawColor,
       lineWidth: drawLineWidth,
-      username: localStorage.getItem('username')
+      username: localStorage.getItem('username') || ''
     });
   
     lastX = offsetX;
