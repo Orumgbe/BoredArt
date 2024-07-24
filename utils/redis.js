@@ -25,7 +25,6 @@ class RedisClient {
   async getAllRoomMembers(roomId) {
     try {
       const roomData = await this.hgetallAsync(roomId);
-      console.log(`Members of ${roomId} - ${JSON.stringify(roomData)}`);
       return roomData;
     } catch (err) {
       console.error(err.message);
@@ -37,7 +36,6 @@ class RedisClient {
   async getRoomMember(roomId, username) {
     try {
       const userStr = await this.hgetAsync(roomId, username);
-      console.log(`Member ${username} - ${userStr}`);
       const userData = JSON.parse(userStr);
       return userData;
     } catch (err) {
@@ -55,7 +53,7 @@ class RedisClient {
         try {
           await this.expireAsync(roomId, duration);
         } catch (err) {
-          console.log('Error setting room TTL');
+          console.error('Error setting room TTL');
         }
       }
       console.log(`Added ${username} to room ${roomId}`);

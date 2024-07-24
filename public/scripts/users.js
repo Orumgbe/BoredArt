@@ -48,8 +48,8 @@ async function updateSocketId(roomId, username, socketId) {
   }
 }
 
-function addUserToPage(username, userData) {
-  console.log('Adding user to page:', username, userData); // Add log
+function addUserToPage(username) {
+  console.log('Adding user to page, username:', username); // Add log
   const membersContainer = document.getElementById('members_container');
   const memberDiv = document.createElement("div");
   memberDiv.classList.add("member");
@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   socket.on('connect', async () => {
     const username = localStorage.getItem('username');
-    console.log(username, 'connected to server with id:', socket.id);
     clearTimeout(inactiveTimeout);
     await updateSocketId(roomId, username, socket.id) 
     socket.emit('joinRoom', { roomId, username });
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const userData = await getUser(roomId, username);
       const existingMember = document.getElementById(username);
       if (existingMember) {
-        console.log(`${username} reconnected with id: ${socket.id}`);
+        console.log(`${username} reconnected to room`);
         existingMember.classList.remove('inactive');
         existingMember.textContent = `${username}`;
       } else {
@@ -87,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         memberCount.textContent = `${Object.keys(users).length}/${maxCapacity}`;
         users[username] = userData;
         for (const username in users) {
-          addUserToPage(username, users[username]);
+          addUserToPage(username);
         }
       }
     } catch (error) {
@@ -96,9 +95,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   socket.on('userJoined', async (user) => {
-    console.log('userJoined event received for user:', user); // Add log
     try {
-      const userData = await getUser(roomId, user); // Pass roomId as well
+      const userData = await getUser(roomId, user);
       addUserToPage(user, userData);
       const users = await getAllUsers(roomId);
       // Update member count
@@ -159,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (disconnectedUser) {
         disconnectedUser.classList.add('inactive');
         inactiveTimeout = setTimeout(async () => {
-          const res = await fetch(`http://0.0.0.0:3000/api/${roomId}/${username}/delete`);
+          const res = await fetch(`${domainName}/api/${roomId}/${username}/delete`);
           localStorage.removeItem(username);
           if (!res.ok) {
             throw new Error('Network response was not ok');

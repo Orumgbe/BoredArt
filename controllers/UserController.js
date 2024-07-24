@@ -13,7 +13,7 @@ class UserController {
       }
       res.status(200).json(users);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(404).json({ error: 'Room not found' });
     }
   }

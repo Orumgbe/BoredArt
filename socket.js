@@ -1,5 +1,3 @@
-import redisClient from './utils/redis';
-
 function socketHandler(io) {
   io.on('connection', (socket) => {
     console.log(`User connected with socket ID -> ${socket.id}`);
@@ -24,7 +22,6 @@ function socketHandler(io) {
     // Handle drawing event
     socket.on('drawing', (data) => {
       socket.to(data.roomId).emit('drawing', { username: socket.username, ...data });
-      console.log(`${socket.username} sent drawing event in room ${data.roomId}`);
     });
 
     socket.on('clearCanvas', (data) => {
@@ -36,7 +33,6 @@ function socketHandler(io) {
         socket.to(socket.roomId).emit('userLeft', socket.username); // Emit userLeft event
         console.log(`${socket.username} left room ${socket.roomId}`);
       }
-      console.log('User disconnected:', socket.id);
     });
   });
 }

@@ -1,4 +1,3 @@
-import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import redisClient from '../utils/redis';
 
@@ -10,19 +9,16 @@ class RoomController {
     // Placeholder member info
     const username = 'placeholder';
     const userData = {
-      id: 0,
-      score: 0,
-      isActive: false,
       socketId: null,
     };
     const userStr = JSON.stringify(userData);
-    console.log(`Details - ${roomId}, { ${username}: ${userStr} }`);
     try {
-      // Increase room TTL to test member connection and disconnection
-      await redisClient.setRoomMember(roomId, username, userStr, 300);
+      // Create room - set expiration to 24 hours, to cleanup memory
+      await redisClient.setRoomMember(roomId, username, userStr, 86400);
       res.redirect(`/room/${roomId}`);
     } catch (error) {
-      res.status(500).send(`Error creating room: ${error}`);
+      console.error(error);
+      res.status(500).send(`An error occurred while attempting to create a room`);
     }
   }
 
@@ -31,7 +27,6 @@ class RoomController {
     const { roomId } = req.params;
     if (req.method === 'GET') {
       // Send form to get username
-      console.log('Views directory:', path.join(__dirname, 'public'));
       res.render('join', { roomId });
     } else if (req.method === 'POST') {
       // Process new user joining
@@ -43,17 +38,15 @@ class RoomController {
           console.log('room is full');
           res.redirect('/');
         } else {
-          // Do later -> check if that username is already in the room (avoid overwriting)
+          // Add in next version -> check if that username is already in the room (avoid overwriting)
           const userData = {
-            id: roomMembers.length,
-            score: 0,
             socketId: null,
           };
           const userStr = JSON.stringify(userData);
           await redisClient.setRoomMember(roomId, username, userStr);
           if ('placeholder' in roomMembers) await redisClient.delRoomMember(roomId, 'placeholder');
-          // Cookie for tracking room request
-          res.cookie(`room-${roomId}-name`, username, { maxAge: 300000, httpOnly: true });
+          // Cookie for tracking room request -> Autodelete after 24 hours
+          res.cookie(`room-${roomId}-name`, username, { maxAge: 86400000, httpOnly: true });
           res.redirect(`/room/${roomId}`);
         }
       } catch (error) {
@@ -77,11 +70,11 @@ class RoomController {
         if (!roomObj) {
           res.status(404).send('Room not found -> 1');
         } else {
-          console.log('Data is in redis, Trust');
           res.status(200).render('room', { roomId });
         }
       } catch (error) {
-        res.status(404).send('Room not found -> 2');
+        console.error(error);
+        res.status(404).send('An error occurred');
       }
     }
   }

@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on('drawing', function(data) {
     if (data.roomId === roomId) {
       drawLine(data.x0, data.y0, data.x1, data.y1, data.color, data.lineWidth);
-      console.log(`${data.username} sent drawing event`);
     }
   });
 
