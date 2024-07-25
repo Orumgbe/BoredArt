@@ -5,8 +5,8 @@ import { promisify } from 'util';
 class RedisClient {
   constructor() {
     this.client = redis.createClient({
-      host: 'localhost',
-      port: 6379,
+      host: process.env.REDIS_HOST || 'localhost',
+      port: process.env.REDIS_PORT || 6379,
     }).on('error', redis.print);
     this.hgetallAsync = promisify(this.client.hgetall).bind(this.client);
     this.hgetAsync = promisify(this.client.hget).bind(this.client);
