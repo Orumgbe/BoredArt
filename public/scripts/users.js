@@ -1,4 +1,4 @@
-const domainName = 'http://0.0.0.0:3000';
+const domainName = 'https://boredart.onrender.com';
 
 async function getUser(roomId, username) {
   try {
