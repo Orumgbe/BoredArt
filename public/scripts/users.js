@@ -70,6 +70,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   socket.on('connect', async () => {
     const username = localStorage.getItem('username');
     clearTimeout(inactiveTimeout);
+    if (!username) {
+      window.location.href = `/room/${roomId}/join`;
+      return;
+    }
     await updateSocketId(roomId, username, socket.id) 
     socket.emit('joinRoom', { roomId, username });
     try {

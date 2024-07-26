@@ -31,6 +31,11 @@ class RoomController {
     } else if (req.method === 'POST') {
       // Process new user joining
       const { username } = req.body;
+      // Ensure username is valid
+      if (!username || username.trim() === '') {
+        res.status(400).send('Invalid username');
+        return;
+      }
       // Get room from redis
       try {
         const roomMembers = await redisClient.getAllRoomMembers(roomId);
